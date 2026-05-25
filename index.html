@@ -1,0 +1,330 @@
+import os
+from weasyprint import HTML
+
+# Create HTML content for the business proposal
+html_content = """
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Proposal Bisnis Kopi - Tembilahan</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 15mm;
+            background-color: #f5f5f5; /* Light grey/whitish background */
+            @bottom-right {
+                content: counter(page);
+                font-family: 'Arial', sans-serif;
+                font-size: 9pt;
+                color: #777777;
+            }
+            @bottom-left {
+                content: "Proposal Bisnis Kopi & Kode Tembilahan";
+                font-family: 'Arial', sans-serif;
+                font-size: 9pt;
+                color: #777777;
+            }
+        }
+        
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #333333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        /* Cover Page Styling */
+        .cover-page {
+            page-break-after: always;
+            height: 100%;
+            display: block;
+            position: relative;
+            padding-top: 50mm;
+        }
+
+        .cover-title {
+            font-size: 28pt;
+            font-weight: bold;
+            color: #1a1a1a;
+            line-height: 1.2;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cover-subtitle {
+            font-size: 16pt;
+            color: #555555;
+            margin-bottom: 40mm;
+            font-weight: 300;
+            border-bottom: 2px solid #cccccc;
+            padding-bottom: 15px;
+        }
+
+        .cover-details {
+            font-size: 11pt;
+            color: #444444;
+            line-height: 1.8;
+            position: absolute;
+            bottom: 20mm;
+        }
+
+        .cover-details strong {
+            color: #1a1a1a;
+        }
+
+        /* Content Styling */
+        h2 {
+            font-size: 15pt;
+            color: #1a1a1a;
+            border-left: 4px solid #666666;
+            padding-left: 10px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            page-break-after: avoid;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        h3 {
+            font-size: 12pt;
+            color: #444444;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            page-break-after: avoid;
+        }
+
+        p {
+            font-size: 10.5pt;
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin-top: 5px;
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+
+        li {
+            font-size: 10.5pt;
+            margin-bottom: 6px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            page-break-inside: avoid;
+        }
+
+        th {
+            background-color: #333333;
+            color: #ffffff;
+            font-weight: bold;
+            text-align: left;
+            padding: 10px;
+            font-size: 10pt;
+            border: 1px solid #333333;
+        }
+
+        td {
+            padding: 10px;
+            font-size: 10pt;
+            border: 1px solid #dddddd;
+            background-color: #ffffff;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f9f9f9;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .highlight-box {
+            background-color: #eaeaea;
+            border: 1px solid #cccccc;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            page-break-inside: avoid;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            font-weight: bold;
+            color: #222222;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cover-page">
+        <div class="cover-title">Proposal Pendirian Bisnis<br>Kopi & Kode Coffee Space</div>
+        <div class="cover-subtitle">Konsep Kafe Modern Hub & Tempat Kolaborasi Komunitas IT</div>
+        
+        <div class="cover-details">
+            <p><strong>Dipersiapkan Oleh:</strong> Management Kopi & Kode Team</p>
+            <p><strong>Lokasi Usaha:</strong> Tembilahan, Kabupaten Indragiri Hilir, Riau</p>
+            <p><strong>Kontak Hubung:</strong> 085167874665</p>
+            <p><strong>Tanggal Dokumen:</strong> Mei 2026</p>
+        </div>
+    </div>
+
+    <h2>1. Ringkasan Eksekutif</h2>
+    <p>
+        Industri kopi di Indonesia terus mengalami transformasi yang signifikan. Kopi tidak lagi sekadar minuman penyegar, melainkan telah menjadi bagian dari gaya hidup, ruang kerja komparatif, dan pusat interaksi sosial bagi berbagai kalangan, mulai dari pelajar, mahasiswa, hingga profesional muda. 
+    </p>
+    <p>
+        <strong>Kopi & Kode Coffee Space</strong> hadir di Tembilahan, Indragiri Hilir, dengan konsep yang unik dan adaptif. Kami menggabungkan kenikmatan cita rasa kopi berkualitas tinggi dengan atmosfer lingkungan kerja/belajar modern (<em>coworking space</em>) yang ramah teknologi. Bisnis ini membidik pangsa pasar produktif, khususnya komunitas digital, mahasiswa IT/TKJ, pekerja lepas (<em>freelancers</em>), serta masyarakat umum di Tembilahan yang membutuhkan tempat representatif untuk berkumpul, berdiskusi, sekaligus menikmati kopi pilihan.
+    </p>
+
+    <h2>2. Latar Belakang Bisnis</h2>
+    <h3>2.1 Potensi Pasar di Tembilahan</h3>
+    <p>
+        Kota Tembilahan sebagai pusat pemerintahan dan perekonomian Kabupaten Indragiri Hilir terus berkembang pesat. Pertumbuhan institusi pendidikan dan penetrasi digitalisasi melahirkan generasi muda baru yang membutuhkan ruang komunal yang kondusif untuk aktivitas produktif. Selama ini, banyak kafe hanya menawarkan tempat nongkrong biasa tanpa didukung fasilitas penunjang kerja dan belajar yang optimal.
+    </p>
+    <h3>2.2 Konsep Kopi & Kode</h3>
+    <p>
+        Nama "Kopi & Kode" mencerminkan filosofi sinergi antara ketenangan (kopi) dan produktivitas/logika (kode pemrograman). Ruangan akan dirancang dengan estetika minimalis bernuansa <strong>abu-abu keperakan dan putih bersih (ash white minimalis)</strong> yang memberikan kesan modern, fokus, tenang, dan profesional. 
+    </p>
+
+    <h2>3. Visi, Misi, dan Keunggulan</h2>
+    <h3>Visi:</h3>
+    <p>Menjadi coffee space pelopor di Indragiri Hilir yang mengintegrasikan budaya minum kopi berkualitas dengan ekosistem produktivitas digital.</p>
+    <h3>Misi:</h3>
+    <ul>
+        <li>Menyediakan kopi kualitas premium dengan harga yang tetap kompetitif bagi pangsa pasar lokal.</li>
+        <li>Menyediakan fasilitas pendukung kerja seperti koneksi internet berkecepatan tinggi, area meja yang luas, dan stopkontak yang memadai di setiap sudut.</li>
+        <li>Membangun komunitas kreatif dan teknologi melalui ajang berbagi ilmu dan kolaborasi rutin.</li>
+    </ul>
+    <h3>Keunggulan Kompetitif:</h3>
+    <ul>
+        <li><strong>Fasilitas Jaringan Maksimal:</strong> Diarsiteki oleh tim lokal yang memahami kebutuhan infrastruktur jaringan stabil untuk pengerjaan tugas atau proyek.</li>
+        <li><strong>Desain Estetis & Ergonomis:</strong> Interior bernuansa abu-abu dan putih memberikan kenyamanan visual jangka panjang sehingga pengunjung betah berlama-lama.</li>
+    </ul>
+
+    <h2>4. Konsep Produk & Strategi Pemasaran</h2>
+    <p>Kami menyajikan dua kategori menu utama, yaitu varian berbasis kopi (Espresso Based & Manual Brew) dan varian non-kopi yang menyegarkan, didampingi camilan ringan pendukung.</p>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Kategori Menu</th>
+                <th>Contoh Varian Menu</th>
+                <th>Target Harga (Rp)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Espresso Based</strong></td>
+                <td>Kopi Susu Gula Aren, Cafe Latte, Americano, Cappuccino</td>
+                <td>15.000 - 25.000</td>
+            </tr>
+            <tr>
+                <td><strong>Manual Brew</strong></td>
+                <td>V60 Arabika Pilihan, Kopi Lokal Riau/Sematra</td>
+                <td>18.000 - 24.000</td>
+            </tr>
+            <tr>
+                <td><strong>Non-Coffee (Signature)</strong></td>
+                <td>Matcha Latte, Chocolate Premium, Taro, Artisan Tea</td>
+                <td>15.000 - 22.000</td>
+            </tr>
+            <tr>
+                <td><strong>Snacks & Bites</strong></td>
+                <td>Kentang Goreng, Roti Bakar Tembilahan, Croissant</td>
+                <td>10.000 - 18.000</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Strategi Pemasaran:</h3>
+    <ul>
+        <li><strong>Digital Marketing:</strong> Optimalisasi Instagram, TikTok, dan Google Maps secara aktif dengan konten visual estetis berlatar interior kafe.</li>
+        <li><strong>Promo Komunitas:</strong> Memberikan potongan khusus bagi pelajar/mahasiswa pada hari-hari tertentu dengan menunjukkan kartu identitas pelajar.</li>
+    </ul>
+
+    <h2>5. Rencana Operasional & Lokasi Usaha</h2>
+    <p>
+        <strong>Lokasi Fisik:</strong> Kafe akan didirikan di area strategis di pusat kota Tembilahan, Kabupaten Indragiri Hilir. Penentuan lokasi difokuskan pada aksesibilitas yang mudah dijangkau oleh kendaraan roda dua maupun roda empat serta dekat dengan pusat kegiatan masyarakat.
+    </p>
+    <p>
+        <strong>Waktu Operasional:</strong> Setiap hari mulai pukul 10.00 WIB hingga 23.00 WIB (menyesuaikan dengan jam produktif target konsumen utama).
+    </p>
+
+    <h2>6. Estimasi Anggaran Keuangan Awal</h2>
+    <p>Berikut adalah proyeksi kebutuhan investasi awal untuk memulai operasional awal Kopi & Kode Coffee Space:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Deskripsi Kebutuhan</th>
+                <th>Estimasi Biaya (Rp)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Sewa Tempat & Renovasi Interior (Tema Abu-Putih)</td>
+                <td>35.000.000</td>
+            </tr>
+            <tr>
+                <td>Peralatan Bar (Mesin Espresso, Grinder, Tools)</td>
+                <td>20.000.000</td>
+            </tr>
+            <tr>
+                <td>Meja, Kursi Ergonomis, & Dekorasi Coworking</td>
+                <td>15.000.000</td>
+            </tr>
+            <tr>
+                <td>Infrastruktur Jaringan Wi-Fi & Sistem Kasir (POS)</td>
+                <td>5.000.000</td>
+            </tr>
+            <tr>
+                <td>Bahan Baku Awal & Biaya Legalitas Usaha</td>
+                <td>7.000.000</td>
+            </tr>
+            <tr>
+                <td><strong>Total Estimasi Kebutuhan Investasi</strong></td>
+                <td><strong>82.000.000</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>7. Penutup</h2>
+    <p>
+        Pendirian <strong>Kopi & Kode Coffee Space</strong> di Tembilahan merupakan peluang bisnis yang sangat prospektif mengingat ceruk pasar ruang produktif yang belum tergarap optimal di Indragiri Hilir. Kami membuka peluang kemitraan, investasi, maupun kolaborasi bagi para investor dan rekanan yang tertarik untuk mengembangkan ekosistem ini bersama kami.
+    </p>
+
+    <div class="highlight-box">
+        <p>Hubungi Informasi Lebih Lanjut & Kemitraan:</p>
+        <ul style="margin: 5px 0 0 0; padding-left: 15px; font-weight: normal; color: #333333;">
+            <li><strong>Telepon/WhatsApp:</strong> 085167874665</li>
+            <li><strong>Alamat Usaha:</strong> Tembilahan, Kabupaten Indragiri Hilir, Riau, Indonesia</li>
+        </ul>
+    </div>
+
+</body>
+</html>
+"""
+
+# Output file path
+output_pdf = "Proposal_Bisnis_Kopi_Dan_Kode_Tembilahan.pdf"
+
+# Generate the PDF file
+HTML(string=html_content).write_pdf(output_pdf)
+print(f"PDF successfully generated: {output_pdf}")
